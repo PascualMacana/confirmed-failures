@@ -7,8 +7,7 @@ It remembers failures that were shown to be real, and it can still report wrong 
 
 With an empty memory folder, it still reports code that is wrong. It does not need past cases to speak.
 
-It lists the faults it finds and does not ask the operator which ones are real.
-It then asks whether to correct them, and it waits. It does not note, prove, and fix in that same step.
+It asks whether to correct them, and it waits. It does not note, prove, and fix in that same step.
 If the operator says yes, it saves each fault's code as it is, before any edit, with why it seems wrong.
 That note is not background. The implementing agent may then fix every listed fault without waiting for proof.
 This skill does not edit the project.
