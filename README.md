@@ -27,6 +27,10 @@ A task may point at a definitive memory. It must not paste the code that was rep
 On a later review, definitive memories that match the current code are shown as well as faults found with no background.
 Provisional notes are not shown as past failures.
 
+## Record script
+
+`scripts/note.sh` is how a note is written. It checks the shape in [`references/memory-record.md`](references/memory-record.md). The agent still decides whether a fault is real and whether the proof matches that fault.
+
 ## What it does not do
 
 - It does not replace or modify the adversarial code review skill. Either skill can be used without the other.

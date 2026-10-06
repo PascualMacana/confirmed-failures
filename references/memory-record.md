@@ -2,6 +2,8 @@
 
 Path: `<memory-directory>/<id>/`, outside this skill and outside git.
 
+Write a note only with `scripts/note.sh`. The script enforces this shape.
+
 The id is `YYYY-MM-DD-short-slug`. If that directory already exists, append `-2`, `-3`, and so on.
 
 ## Files
@@ -12,7 +14,7 @@ The id is `YYYY-MM-DD-short-slug`. If that directory already exists, append `-2`
 | `reason.md` | Always, while the note exists. Why it failed or seems to have failed. |
 | `status.txt` | Always. A single line: `provisional` or `definitive`. |
 | `proof.md` | Only if a proof artifact exists. Starts with `failing-test` or `reproduction-steps`, then the command output or the steps. |
-| `task.txt` | Only after definitive, and only if a pointer exists. One line: a task id or a location. No code. |
+| `task.txt` | Only after definitive, and only if a pointer exists. One line, at most 200 characters: a task id or a location. No code. |
 
 ## Promotion
 

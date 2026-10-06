@@ -17,6 +17,7 @@ of the conversation. The text in a local note may be in that language.
 - Do not edit the project under review. After the operator agrees to correct the listed faults, the implementing agent may fix all of them without waiting for proof. This skill still does not edit. Do not list, note, prove, and fix in one turn.
 - Do not edit the adversarial code review skill.
 - Do not write notes inside this skill's directory.
+- Create, attach proof to, promote, discard, and point at a note only by running this skill's `scripts/note.sh`. Do not hand-write those files.
 - Do not hardcode a machine-specific memory path.
 - Do not build an index, and do not ask permission to open a memory. Read definitive notes when a review needs them.
 - A phrase without the code is not a note. A claim that the bug was reproduced is not proof. Looking at the code is not proof.
@@ -73,14 +74,15 @@ If definitive notes exist, also follow [Later review](#later-review) after this 
 
 ## Record on report
 
-For each fault in the report:
+For each fault in the report, if there is no code to cite, do not write a phrase-only note. Otherwise:
 
-1. If there is no code to cite, do not write a phrase-only note.
-2. Create `<memory-directory>/<id>/` using the id rule in the record reference. Copy the code before anyone edits it.
-3. Write `code.md` with that code.
-4. Write `reason.md` with why it seems wrong.
-5. Write `status.txt` as a single line: `provisional`.
-6. Do not write `task.txt` yet.
+1. Put the code, as it is before anyone edits it, in a file. Put why it seems wrong in a second file.
+2. The memory directory must already exist and must sit outside this skill. If the operator just named a path that is not there yet, create that directory and nothing else.
+3. Run the loaded copy of `scripts/note.sh`. It prints the note path. Use that path afterwards. Do not pass `task` yet.
+
+`bash /path/to/confirmed-failures/scripts/note.sh note --memory <memory-directory> --id <id> --code-file <code-file> --reason-file <reason-file>`
+
+The id rule is in the record reference. The script writes `code.md`, `reason.md`, and `status.txt` as `provisional`.
 
 A later review must not present this note as a past failure while `status.txt` is `provisional`.
 
@@ -88,17 +90,22 @@ If the operator has not named a memory directory, ask once and do not invent a p
 
 ## Proof
 
-The operator or the agent may write `proof.md` into a provisional note.
-The first line is `failing-test` or `reproduction-steps`. The rest is the
-command and its failure output, or numbered steps.
+Attach an artifact to a provisional note:
 
-Promote only when that body shows the failure named in `reason.md` for the
-code in `code.md`:
+`bash /path/to/confirmed-failures/scripts/note.sh proof --note <note-path> --file <proof-file>`
+
+The file's first line is `failing-test` or `reproduction-steps`. The rest is the command and its failure output, or numbered steps. The script checks that shape. It does not decide whether the failure is the one named in `reason.md`. The agent does.
+
+Promote only when that body shows the failure named in `reason.md` for the code in `code.md`:
 
 - `failing-test`: the output fails because of that code and that reason. Another failure does not count.
 - `reproduction-steps`: a reader can follow the steps on that code and see that bug.
 
-Then set `status.txt` to the single line `definitive`. Tell the operator, in the chosen style, that the note is definitive. The project may already have been edited by the implementing agent. This skill still does not edit it.
+Then run:
+
+`bash /path/to/confirmed-failures/scripts/note.sh promote --note <note-path>`
+
+Tell the operator, in the chosen style, that the note is definitive. The project may already have been edited by the implementing agent. This skill still does not edit it.
 
 Do not promote when:
 
@@ -106,7 +113,11 @@ Do not promote when:
 - the only evidence is that someone looked at the code
 - the test fails for a different reason than `reason.md`
 
-In those cases, delete the note directory. Do not leave `discarded`. Tell the operator, in the chosen style, that the note was discarded. Do not revert the edit from this skill.
+In those cases run:
+
+`bash /path/to/confirmed-failures/scripts/note.sh discard --note <note-path>`
+
+The script deletes the directory. Tell the operator, in the chosen style, that the note was discarded. Do not revert the edit from this skill.
 
 ## Handoff
 
@@ -118,7 +129,9 @@ Any task the implementing agent writes must only point at the note id:
 - Otherwise the implementing agent writes a short reference in that project.
 
 The pointer is one id or location. It must not include the code that was replaced.
-If a pointer is recorded on the note, write it as the single line of `task.txt`, and only after `definitive`.
+If a pointer is recorded on the note, and only after `definitive`, run:
+
+`bash /path/to/confirmed-failures/scripts/note.sh task --note <note-path> --pointer "<one line>"`
 
 ## Later review
 
