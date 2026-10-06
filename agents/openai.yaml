@@ -1,0 +1,4 @@
+interface:
+  display_name: "Confirmed Failures"
+  short_description: "Remember failures only after a test or a reproduction shows them"
+  default_prompt: "Use $confirmed-failures to review this code. List the faults, ask if I want them corrected, and remember one only after a failing test or followable steps show it."
