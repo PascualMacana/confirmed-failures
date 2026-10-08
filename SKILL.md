@@ -1,6 +1,6 @@
 ---
 name: confirmed-failures
-description: Review code, list the faults, keep the old code, and remember a failure only after a failing test or followable steps show it. Use when the user wants that review. Do not ask the user which fault is real. With no memories, still report wrong code. Do not edit the project and do not modify the adversarial code review skill.
+description: Review code, list the faults, keep the old code, and remember a failure only after a failing test or followable steps show it. Use when the user wants that review. With no memories, still report wrong code. Do not edit the project and do not modify the adversarial code review skill.
 ---
 
 # Confirmed Failures
@@ -61,10 +61,9 @@ Read the code under work. For each fault you can show, cite the code and say
 why it is wrong. A missing memory directory, or a directory with no
 `definitive` notes, is not a reason to refuse or to stay silent.
 
-Do not ask the operator which faults are really wrong. They are not in a position to know.
 Do not run three independent critic lanes. One evidence pass is the whole review.
 
-Number the rows. Then ask one question in the operator's language and wait: do they want these faults corrected? Do not write notes, do not ask which faults are real, and do not fix anything in that same turn.
+Number the rows. Then ask one question in the operator's language and wait: do they want these faults corrected? Do not write notes and do not fix anything in that same turn.
 
 If they say no, stop. Write nothing. Edit nothing.
 
