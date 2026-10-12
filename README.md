@@ -111,4 +111,4 @@ If the agent does not support automatic skill discovery:
 Read /path/to/confirmed-failures/SKILL.md and follow it to review this change.
 ```
 
-Memories are not in this repository. The skill asks once where to keep them on that machine.
+Memories are not in this repository. On each machine they live in one folder, `~/.confirmed-failures`, shared by every project. If that folder is missing, the skill asks whether one is already declared before it creates the default.

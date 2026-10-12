@@ -18,15 +18,24 @@ of the conversation. The text in a local note may be in that language.
 - Do not edit the adversarial code review skill.
 - Do not write notes inside this skill's directory.
 - Create, attach proof to, promote, discard, and point at a note only by running this skill's `scripts/note.sh`. Do not hand-write those files.
-- Do not hardcode a machine-specific memory path.
-- Do not build an index, and do not ask permission to open a memory. Read definitive notes when a review needs them.
+- Resolve the note directory as in [Memory directory](#memory-directory). Do not search the disk, and do not invent a folder inside a project or inside this skill.
+- Do not build an index, and do not ask permission to open a note. Once the memory directory is chosen, read its definitive notes when a review needs them.
 - A phrase without the code is not a note. A claim that the bug was reproduced is not proof. Looking at the code is not proof.
 
 ## Memory directory
 
-Notes live in a directory the operator names, outside this skill and outside
-git. If they have not named one, ask once. Do not invent a path inside this
-skill, and do not create a note until they answer.
+Notes for every project on this machine live in one directory. It is outside this skill and outside every project's git repository. The default path is `~/.confirmed-failures`, in the operator's home. Do not write their user name into that path, and do not put this directory inside a project.
+
+Resolve it before the first report. Do not search the disk.
+
+- If `~/.confirmed-failures` exists, ask once whether that is the folder. A yes uses it for the rest of the conversation. A no does not invent another name; ask where it is.
+- If it does not exist, do not create it. Ask once whether a folder is already declared. If they give a name or a path, use that directory only when it already exists. A bare name is `~/` plus that name, not a search. If they say there is none, create `~/.confirmed-failures` and nothing inside it.
+
+A declared directory must already exist and must sit outside this skill. Do not create a second folder beside it.
+
+After the folder is chosen, do not ask again in this conversation. The choice is not stored. A later conversation that does not find `~/.confirmed-failures` asks again.
+
+A missing answer is not a reason to skip the review. Wait for it, then report. Do not read or write notes before they answer.
 
 The record shape is [`references/memory-record.md`](references/memory-record.md).
 
@@ -76,7 +85,7 @@ If definitive notes exist, also follow [Later review](#later-review) after this 
 For each fault in the report, if there is no code to cite, do not write a phrase-only note. Otherwise:
 
 1. Put the code, as it is before anyone edits it, in a file. Put why it seems wrong in a second file.
-2. The memory directory must already exist and must sit outside this skill. If the operator just named a path that is not there yet, create that directory and nothing else.
+2. Use the directory resolved in [Memory directory](#memory-directory). It must already exist and must sit outside this skill. Do not create any other directory.
 3. Run the loaded copy of `scripts/note.sh`. It prints the note path. Use that path afterwards. Do not pass `task` yet.
 
 `bash /path/to/confirmed-failures/scripts/note.sh note --memory <memory-directory> --id <id> --code-file <code-file> --reason-file <reason-file>`
@@ -84,8 +93,6 @@ For each fault in the report, if there is no code to cite, do not write a phrase
 The id rule is in the record reference. The script writes `code.md`, `reason.md`, and `status.txt` as `provisional`.
 
 A later review must not present this note as a past failure while `status.txt` is `provisional`.
-
-If the operator has not named a memory directory, ask once and do not invent a path inside this skill. Still show the report. Write the notes when they answer.
 
 ## Proof
 
@@ -136,7 +143,7 @@ If a pointer is recorded on the note, and only after `definitive`, run:
 
 Report faults from the code under work first, as in [Report faults](#report-faults), including when memories exist.
 
-Then read only directories whose `status.txt` is `definitive`. Show a note, in the chosen style, when the code in its `code.md` appears in the code under work. Show that old code and the text of `reason.md`.
+Then read only note directories inside the chosen memory directory whose `status.txt` is `definitive`. Show a note, in the chosen style, when the code in its `code.md` appears in the code under work. Show that old code and the text of `reason.md`.
 
 Do not show a note because the reason merely sounds similar. Do not open or mention `provisional` directories as memories.
 

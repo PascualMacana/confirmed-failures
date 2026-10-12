@@ -1,6 +1,6 @@
 # Memory record
 
-Path: `<memory-directory>/<id>/`, outside this skill and outside git.
+Path: `<memory-directory>/<id>/`, outside this skill and outside git. The directory is `~/.confirmed-failures` unless the operator already declared another one. How that choice is made is in `SKILL.md`.
 
 Write a note only with `scripts/note.sh`. The script enforces this shape.
 
